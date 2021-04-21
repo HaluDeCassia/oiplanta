@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { 
-  Dimensions, 
-  Image, 
+import {
   KeyboardAvoidingView,
   StyleSheet, 
   Text, 
@@ -11,6 +9,7 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import Button from '../components/Button'
 
@@ -18,10 +17,12 @@ import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
 export function UserIdentification() {
+  const navigation = useNavigation()
+
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
   const [name, setName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>()
-  
+
   const handleBlur = () => {
     setIsFocused(false)
     setIsFilled(!!name)
@@ -30,6 +31,10 @@ export function UserIdentification() {
   const handleChange = (value: NativeSyntheticEvent<TextInputChangeEventData>) => {
     setIsFilled(!!value)
     setName(value)
+  }
+
+  const handleSubmit = () => {
+    navigation.navigate('Confirmation')
   }
 
   return (
@@ -55,7 +60,7 @@ export function UserIdentification() {
               onChange={handleChange}
             />
             <View style={styles.footer}>
-              <Button>
+              <Button onPress={handleSubmit}>
                 Confirmar
               </Button>
             </View>

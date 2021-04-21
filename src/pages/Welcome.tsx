@@ -5,8 +5,15 @@ import { Entypo } from '@expo/vector-icons'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 import watering from '../assets/watering.png'
+import { useNavigation } from '@react-navigation/native'
 
 export function Welcome() {
+  const navigation = useNavigation()
+
+  const handleStart = () => {
+    navigation.navigate('UserIdentification')
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
@@ -30,6 +37,7 @@ export function Welcome() {
         <TouchableOpacity 
           style={styles.button} 
           activeOpacity={0.7}
+          onPress={handleStart}
         >
           <Entypo 
             name="chevron-thin-right" 
