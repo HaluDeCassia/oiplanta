@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Keyboard,
   KeyboardAvoidingView,
   StyleSheet, 
   Text, 
@@ -7,7 +8,8 @@ import {
   SafeAreaView, 
   View, 
   NativeSyntheticEvent,
-  TextInputChangeEventData
+  TextInputChangeEventData,
+  TouchableWithoutFeedback
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -40,32 +42,34 @@ export function UserIdentification() {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.form}>
-            <Text style={styles.emoji}>
-              {isFilled ? '😄' : '😀'}
-            </Text>
-            <Text style={styles.title}>
-              Como podemos {'\n'} 
-              chamar você?
-            </Text>
-            <TextInput 
-              placeholder="Digite um nome" 
-              style={[
-                styles.input,
-                (isFocused || isFilled) && { borderColor: colors.green }
-              ]}
-              onBlur={handleBlur}
-              onFocus={handleFocus}
-              onChange={handleChange}
-            />
-            <View style={styles.footer}>
-              <Button onPress={handleSubmit}>
-                Confirmar
-              </Button>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.content}>
+            <View style={styles.form}>
+              <Text style={styles.emoji}>
+                {isFilled ? '😄' : '😀'}
+              </Text>
+              <Text style={styles.title}>
+                Como podemos {'\n'} 
+                chamar você?
+              </Text>
+              <TextInput 
+                placeholder="Digite um nome" 
+                style={[
+                  styles.input,
+                  (isFocused || isFilled) && { borderColor: colors.green }
+                ]}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                onChange={handleChange}
+              />
+              <View style={styles.footer}>
+                <Button onPress={handleSubmit}>
+                  Confirmar
+                </Button>
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
