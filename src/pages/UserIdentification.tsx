@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
   Dimensions, 
   Image, 
+  KeyboardAvoidingView,
   StyleSheet, 
   Text, 
   TextInput,
   SafeAreaView, 
-  View 
+  View, 
+  NativeSyntheticEvent,
+  TextInputChangeEventData
 } from 'react-native'
 
 import Button from '../components/Button'
@@ -15,24 +18,50 @@ import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
 export function UserIdentification() {
+  const [isFocused, setIsFocused] = useState(false)
+  const [isFilled, setIsFilled] = useState(false)
+  const [name, setName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>()
+  
+  const handleBlur = () => {
+    setIsFocused(false)
+    setIsFilled(!!name)
+  }
+  const handleFocus = () => setIsFocused(true)
+  const handleChange = (value: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    setIsFilled(!!value)
+    setName(value)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.form}>
-          <Text style={styles.emoji}>
-            😀
-          </Text>
-          <Text style={styles.title}>
-            Como podemos {'\n'} 
-            chamar você?
-          </Text>
-          <TextInput style={styles.input}/>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.form}>
+            <Text style={styles.emoji}>
+              {isFilled ? '😄' : '😀'}
+            </Text>
+            <Text style={styles.title}>
+              Como podemos {'\n'} 
+              chamar você?
+            </Text>
+            <TextInput 
+              placeholder="Digite um nome" 
+              style={[
+                styles.input,
+                (isFocused || isFilled) && { borderColor: colors.green }
+              ]}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
+              onChange={handleChange}
+            />
+            <View style={styles.footer}>
+              <Button>
+                Confirmar
+              </Button>
+            </View>
+          </View>
         </View>
-
-        <Button>
-          Confirmar
-        </Button>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
@@ -75,5 +104,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 10,
     textAlign: 'center'
+  },
+  footer: {
+    width: '100%',
+    marginTop: 40,
+    paddingHorizontal: 20
   }
 })
