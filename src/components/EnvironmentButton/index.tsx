@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green_light
   },
   text: {
+    fontSize: 12,
     color: colors.heading,
     fontFamily: fonts.text
   },
